@@ -27,7 +27,7 @@ public class ActivityController {
 	}
 
 	@GetMapping
-	Collection<Activity> readBookmarks(@PathVariable String userName) {
+	Collection<Activity> readActivities(@PathVariable String userName) {
 		return this.activityRepository.findByUserName(userName);
 	}
 
