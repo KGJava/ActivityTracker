@@ -33,6 +33,7 @@ public class ActivityController {
 
 	@PostMapping
 	ResponseEntity<?> add(@PathVariable String userName, @RequestBody Activity activity) {
+		activity.setUserName(userName);
 		Activity createdActivity = this.activityRepository.save(activity);
 		if (createdActivity != null) {
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")

@@ -35,7 +35,7 @@ public class ReportController {
 	@DeleteMapping
 	Report delteActivitiesFromPeriod(@PathVariable String reportType, @PathVariable String userName) {
 		Collection<Activity> activities = this.activityRepository.findByUserName(userName);
-		List<Activity> filteredActivities = ReportUtil.getFirstPeriodActivities(reportType, activities);
+		List<Activity> filteredActivities = ReportUtil.getActivitiesExcludingFirstPeriod(reportType, activities);
 		if (!CollectionUtils.isEmpty(filteredActivities)) {
 			for (Activity current : filteredActivities) {
 				this.activityRepository.delete(current);

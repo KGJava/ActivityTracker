@@ -126,7 +126,34 @@ public class ReportUtil {
 		}
 		return firstPeriodActivities;
 	}
+	public static List<Activity> getActivitiesExcludingFirstPeriod(String reportType, Collection<Activity> activities) {
+		List<Activity> oldActivities = new ArrayList<>();
+		Date firstPeriodDate = null;
 
+		Calendar now = Calendar.getInstance();
+
+		if (reportType.equalsIgnoreCase(Constants.HOURLY_REPORT_TYPE)) {
+			now.add(Calendar.HOUR, -1);
+			firstPeriodDate = now.getTime();
+		} else if (reportType.equalsIgnoreCase(Constants.DAILY_REPORT_TYPE)) {
+			now.add(Calendar.DATE, -1);
+			firstPeriodDate = now.getTime();
+		} else if (reportType.equalsIgnoreCase(Constants.WEEKLY_REPORT_TYPE)) {
+			now.add(Calendar.DATE, -7);
+			firstPeriodDate = now.getTime();
+		} else if (reportType.equalsIgnoreCase(Constants.MONTHLY_REPORT_TYPE)) {
+			now.add(Calendar.MONTH, -1);
+			firstPeriodDate = now.getTime();
+		} else {
+			return oldActivities;
+		}
+		for (Activity current : activities) {
+			if (current.getActivityTime().before(firstPeriodDate)) {
+				oldActivities.add(current);
+			}
+		}
+		return oldActivities;
+	}
 	private static int countSteps(List<Activity> activities) {
 		int steps = 0;
 		for (Activity current : activities) {
